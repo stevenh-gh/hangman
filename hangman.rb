@@ -14,4 +14,6 @@ def load_dictionary
 end
 
 dict = load_dictionary
-p sample = generate_random_word(dict)
+sample = generate_random_word(dict)
+
+AMT_GUESSES = 6 # Stick figure takes 6 marks to complete
