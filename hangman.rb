@@ -7,7 +7,7 @@ class Hangman
     @dict = load_dictionary
     @sample = Sample.new dict
     @amt_guesses = 6 # Stick figure takes 6 marks to complete
-    @word = Array.new sample.random_word.length, '_'
+    @word = Array.new sample.length, '_'
     @guessed_right = []
     @guessed_wrong = []
   end
