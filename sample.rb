@@ -1,14 +1,13 @@
 class Sample
   attr_reader :random_word, :length
 
-  def initialize
-    @random_word = generate_random_word
+  def initialize(dict)
+    @random_word = generate_random_word dict
     @length = random_word.length
   end
 
   private
 
-  # TODO: make dict class and pass it in here
   def generate_random_word(dict)
     sample = ''
     loop do

@@ -27,7 +27,7 @@ end
 
 dict = load_dictionary
 # sample.random_word = generate_random_word dict
-sample = Sample.new
+sample = Sample.new dict
 p sample.random_word
 
 amt_guesses = 6 # Stick figure takes 6 marks to complete
