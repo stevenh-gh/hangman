@@ -28,12 +28,11 @@ class Hangman
 
       display_word_guess word, amt_guesses
 
-      print "Correctly guessed: #{guessed_right}\n"
-      print "Already guessed: #{guessed_wrong}\n"
-      separator
+      print_guesses
 
       if amt_guesses == 0
         puts 'You have failed to guess the word!'
+        puts "The word is: #{sample.random_word}"
         break
       end
 
@@ -68,6 +67,12 @@ class Hangman
       valid_guess = true if ('a'..'z').to_a.include?(guess) && !guessed_array.include?(guess)
     end
     guess
+  end
+
+  def print_guesses
+    print "Correctly guessed: #{guessed_right}\n"
+    print "Already guessed: #{guessed_wrong}\n"
+    separator
   end
 end
 
