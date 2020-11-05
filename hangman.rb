@@ -1,16 +1,9 @@
+require_relative 'sample'
+
 puts 'Hangman initialized!'
 
 def load_dictionary
   File.readlines('5desk.txt').map { |row| row.chomp }
-end
-
-def generate_random_word(dict)
-  sample = ''
-  loop do
-    sample = dict.sample
-    break if sample.length > 5 && sample.length < 12
-  end
-  sample
 end
 
 def display_word(word)
@@ -33,12 +26,13 @@ def display_guess(amt_guesses)
 end
 
 dict = load_dictionary
-sample = generate_random_word dict
-p sample
+# sample.random_word = generate_random_word dict
+sample = Sample.new
+p sample.random_word
 
 amt_guesses = 6 # Stick figure takes 6 marks to complete
 
-word = Array.new sample.length, '_'
+word = Array.new sample.random_word.length, '_'
 
 # Display amount of guesses
 display_guess amt_guesses
@@ -55,8 +49,8 @@ loop do
   # Ask user to guess
   guess = query_player(guessed_right + guessed_wrong)
 
-  if sample.downcase.include? guess
-    word.map!.with_index { |ele, idx| sample[idx].downcase == guess ? sample[idx] : ele }
+  if sample.random_word.downcase.include? guess
+    word.map!.with_index { |ele, idx| sample.random_word[idx].downcase == guess ? sample.random_word[idx] : ele }
     guessed_right << guess
   else
     amt_guesses -= 1
@@ -74,7 +68,7 @@ loop do
     break
   end
 
-  if word.join('') == sample
+  if word.join('') == sample.random_word
     puts 'You have guessed the word correctly!'
     break
   end
