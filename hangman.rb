@@ -18,13 +18,7 @@ class Hangman
     loop do
       guess = query_player(guessed_right + guessed_wrong)
 
-      if sample.random_word.downcase.include? guess
-        word.map!.with_index { |ele, idx| sample.random_word[idx].downcase == guess ? sample.random_word[idx] : ele }
-        guessed_right << guess
-      else
-        self.amt_guesses -= 1
-        guessed_wrong << guess
-      end
+      process_guess guess
 
       display_word_guess word, amt_guesses
 
@@ -73,6 +67,16 @@ class Hangman
     print "Correctly guessed: #{guessed_right}\n"
     print "Already guessed: #{guessed_wrong}\n"
     separator
+  end
+
+  def process_guess(guess)
+    if sample.random_word.downcase.include? guess
+      word.map!.with_index { |ele, idx| sample.random_word[idx].downcase == guess ? sample.random_word[idx] : ele }
+      guessed_right << guess
+    else
+      self.amt_guesses -= 1
+      guessed_wrong << guess
+    end
   end
 end
 
