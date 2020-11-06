@@ -20,7 +20,7 @@ class Hangman
     loop do
       # Ask user if they want to save the game
       yn = false
-      unless yn
+      until yn
         print 'Do you want to save game? (Y/N): '
         save_game = gets.chomp.downcase
         yn = true if save_game == 'y' || save_game == 'n'
@@ -102,19 +102,22 @@ class Hangman
   def to_json(*_args)
     JSON.dump(
       {
-        sample: @sample,
+        sample: @sample.random_word,
         amt_guesses: @amt_guesses,
         word: @word,
         guessed_right: @guessed_right,
-        guessed_wrong: @guessed_wrong
+        guessed_wrong: @guessed_wrong,
+        dict: @dict
       }
     )
   end
 
   def self.from_json(string)
     data = JSON.load string
+    s = Sample.new(data['dict'])
+    s.random_word = data['sample']
     new(
-      data['sample'],
+      s,
       data['amt_guesses'],
       data['word'],
       data['guessed_right'],
@@ -125,5 +128,18 @@ end
 
 puts 'Hangman initialized!'
 
-game = Hangman.new
+puts
+
+yn = false
+until yn
+  print 'Do you want to open savefile? (Y/N): '
+  input = gets.chomp.downcase
+  yn = true if input == 'y' || input == 'n'
+end
+
+game = if input == 'y'
+         Hangman.from_json(File.open('save/savefile.json', 'r').read)
+       else
+         Hangman.new
+       end
 game.play
