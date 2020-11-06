@@ -18,6 +18,24 @@ class Hangman
     display_word_guess word, amt_guesses
     separator
     loop do
+      # Ask user if they want to save the game
+      yn = false
+      unless yn
+        print 'Do you want to save game? (Y/N): '
+        save_game = gets.chomp.downcase
+        yn = true if save_game == 'y' || save_game == 'n'
+      end
+      if save_game == 'y'
+        savefile = to_json
+        Dir.mkdir 'save' unless Dir.exist? 'save'
+        filename = 'save/savefile.json'
+        f = File.open filename, 'w'
+        f.puts savefile
+        f.close
+        puts "Saved to folder 'save'!"
+        break
+      end
+
       guess = query_player(guessed_right + guessed_wrong)
 
       process_guess guess
