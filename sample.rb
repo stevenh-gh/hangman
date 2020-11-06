@@ -1,5 +1,6 @@
 class Sample
-  attr_reader :random_word, :length
+  attr_accessor :random_word
+  attr_reader :length
 
   def initialize(dict)
     @random_word = generate_random_word dict
