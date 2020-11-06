@@ -137,9 +137,6 @@ until yn
   yn = true if input == 'y' || input == 'n'
 end
 
-game = if input == 'y'
-         Hangman.from_json(File.open('save/savefile.json', 'r').read)
-       else
-         Hangman.new
-       end
+game = input == 'y' ? Hangman.from_json(File.open('save/savefile.json', 'r').read) : Hangman.new
+
 game.play
