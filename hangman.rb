@@ -1,15 +1,17 @@
+require 'pry'
+require 'json'
 require_relative 'sample'
 
 class Hangman
   attr_accessor :dict, :sample, :amt_guesses, :word, :guessed_right, :guessed_wrong
 
-  def initialize
+  def initialize(sample = nil, amt_guesses = nil, word = nil, guessed_right = nil, guessed_wrong = nil)
     @dict = load_dictionary
-    @sample = Sample.new dict
-    @amt_guesses = 6 # Stick figure takes 6 marks to complete
-    @word = Array.new sample.length, '_'
-    @guessed_right = []
-    @guessed_wrong = []
+    @sample = sample || Sample.new(dict)
+    @amt_guesses = amt_guesses || 6 # Stick figure takes 6 marks to complete
+    @word = word || Array.new(self.sample.length, '_')
+    @guessed_right = guessed_right || []
+    @guessed_wrong = guessed_wrong || []
   end
 
   def play
@@ -77,6 +79,29 @@ class Hangman
       self.amt_guesses -= 1
       guessed_wrong << guess
     end
+  end
+
+  def to_json(*_args)
+    JSON.dump(
+      {
+        sample: @sample,
+        amt_guesses: @amt_guesses,
+        word: @word,
+        guessed_right: @guessed_right,
+        guessed_wrong: @guessed_wrong
+      }
+    )
+  end
+
+  def self.from_json(string)
+    data = JSON.load string
+    new(
+      data['sample'],
+      data['amt_guesses'],
+      data['word'],
+      data['guessed_right'],
+      data['guessed_wrong']
+    )
   end
 end
 
