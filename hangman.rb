@@ -15,26 +15,11 @@ class Hangman
   end
 
   def play
-    display_word_guess word, amt_guesses
-    separator
     loop do
-      # Ask user if they want to save the game
-      yn = false
-      until yn
-        print 'Do you want to save game? (Y/N): '
-        save_game = gets.chomp.downcase
-        yn = true if save_game == 'y' || save_game == 'n'
-      end
-      if save_game == 'y'
-        savefile = to_json
-        Dir.mkdir 'save' unless Dir.exist? 'save'
-        filename = 'save/savefile.json'
-        f = File.open filename, 'w'
-        f.puts savefile
-        f.close
-        puts "Saved to folder 'save'!"
-        break
-      end
+      display_word_guess word, amt_guesses
+      separator
+
+      break if query_save
 
       guess = query_player(guessed_right + guessed_wrong)
 
@@ -96,6 +81,28 @@ class Hangman
     else
       self.amt_guesses -= 1
       guessed_wrong << guess
+    end
+  end
+
+  def query_save
+    # Ask user if they want to save the game
+    yn = false
+    until yn
+      print 'Do you want to save game? (Y/N): '
+      save_game = gets.chomp.downcase
+      yn = true if save_game == 'y' || save_game == 'n'
+    end
+    if save_game == 'y'
+      savefile = to_json
+      Dir.mkdir 'save' unless Dir.exist? 'save'
+      filename = 'save/savefile.json'
+      f = File.open filename, 'w'
+      f.puts savefile
+      f.close
+      puts "Saved to folder 'save'!"
+      true
+    else
+      false
     end
   end
 
