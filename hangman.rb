@@ -19,7 +19,7 @@ class Hangman
       display_word_guess word, amt_guesses
       separator
 
-      break if query_save
+      query_save
 
       guess = query_player(guessed_right + guessed_wrong)
 
@@ -101,8 +101,6 @@ class Hangman
       f.close
       puts "Saved to folder 'save'!"
       true
-    else
-      false
     end
   end
 
