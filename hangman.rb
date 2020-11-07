@@ -137,13 +137,23 @@ puts 'Hangman initialized!'
 
 puts
 
-yn = false
-until yn
-  print 'Do you want to open savefile? (Y/N): '
-  input = gets.chomp.downcase
-  yn = true if input == 'y' || input == 'n'
+loop do
+  yn = false
+  until yn
+    print 'Do you want to open savefile? (Y/N): '
+    input = gets.chomp.downcase
+    yn = true if input == 'y' || input == 'n'
+  end
+
+  game = input == 'y' ? Hangman.from_json(File.open('save/savefile.json', 'r').read) : Hangman.new
+
+  game.play
+
+  loopans = false
+  until loopans
+    print 'Do you want to play again? (Y/N): '
+    loop = gets.chomp.downcase
+    loopans = true if input == 'y' || input == 'n'
+  end
+  break if loop == 'n'
 end
-
-game = input == 'y' ? Hangman.from_json(File.open('save/savefile.json', 'r').read) : Hangman.new
-
-game.play
